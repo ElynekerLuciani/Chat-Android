@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Chat Android</string>
+    <string name="email">E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastro">Cadastre-se para entrar</string>
+    <string name="nome">Digite seu nome</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="configurar">Configurar</string>
+    <string name="sair">Sair</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contatos">Contatos</string>
+    <string name="conversas">Conversas</string>
+</resources>
