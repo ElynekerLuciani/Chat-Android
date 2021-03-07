@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.elyneker.chatandroid.R;
 import com.elyneker.chatandroid.config.ConfiguracaoFirebase;
 import com.elyneker.chatandroid.helper.Permissao;
 import com.elyneker.chatandroid.helper.UsuarioFirebase;
+import com.elyneker.chatandroid.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,16 +45,18 @@ public class ConfigurarActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private String identificadorUsuario;
 
-    private final String[] permissoesNecessarias = new String[] {
+    private final String[] permissoesNecessarias = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
 
     private ImageButton imageButtonCamera, imageButtonGaleria;
     private EditText nomePerfilUsuario;
+    private Button buttonSalvar;
     private static final int SELECAO_CAMERA = 10;
     private static final int SELECAO_GALERIA = 20;
     private CircleImageView circleImageViewPerfil;
+    private Usuario usuarioLogado;
 
 
     @Override
@@ -62,10 +66,12 @@ public class ConfigurarActivity extends AppCompatActivity {
 
         storageReference = ConfiguracaoFirebase.getFirebaseStorage();
         identificadorUsuario = UsuarioFirebase.getIdentificadorUsuario();
+        usuarioLogado = UsuarioFirebase.getDadosUsuarioLogado();
 
         //validar permissões do app
         Permissao.validarPermissoes(permissoesNecessarias, this, 1);
 
+        buttonSalvar = findViewById(R.id.buttonSalvar);
         nomePerfilUsuario = findViewById(R.id.editNomePerfilUsuario);
         imageButtonCamera = findViewById(R.id.imageButtonCamera);
         imageButtonGaleria = findViewById(R.id.imageButtonGaleria);
@@ -75,7 +81,7 @@ public class ConfigurarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(intent.resolveActivity(getPackageManager()) != null) {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, SELECAO_CAMERA);
                 }
 
@@ -88,7 +94,7 @@ public class ConfigurarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                if(intent.resolveActivity(getPackageManager()) != null) {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, SELECAO_GALERIA);
                 }
             }
@@ -116,6 +122,24 @@ public class ConfigurarActivity extends AppCompatActivity {
 
         nomePerfilUsuario.setText(user.getDisplayName());
 
+        buttonSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nome = nomePerfilUsuario.getText().toString();
+                boolean retorno = UsuarioFirebase.atualizarNomeUsuario(nome);
+
+                if (retorno) {
+                    usuarioLogado.setNome(nome);
+                    usuarioLogado.atualizar();
+
+
+                    Toast.makeText(ConfigurarActivity.this,
+                            "Nome alterado com sucesso",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -141,11 +165,11 @@ public class ConfigurarActivity extends AppCompatActivity {
                         break;
                 }
 
-                if(bitmap != null) {
+                if (bitmap != null) {
                     circleImageViewPerfil.setImageBitmap(bitmap);
                     //Recuperar dados de imagens do firebase
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream );
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
                     byte[] dadosBitmap = byteArrayOutputStream.toByteArray();
                     //salvar a imagem no firebase
                     final StorageReference imagemRef = storageReference
@@ -182,7 +206,7 @@ public class ConfigurarActivity extends AppCompatActivity {
                     });
 
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -190,7 +214,16 @@ public class ConfigurarActivity extends AppCompatActivity {
     }
 
     private void atualizaFotoUsuario(Uri url) {
-        UsuarioFirebase.atualizarFotoUsuario(url);
+        boolean retorno = UsuarioFirebase.atualizarFotoUsuario(url);
+        if(retorno) {
+            usuarioLogado.setFoto(url.toString());
+            usuarioLogado.atualizar();
+
+            Toast.makeText(ConfigurarActivity.this,
+                    "Foto atualizada com sucesso!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -198,7 +231,7 @@ public class ConfigurarActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         for (int permissaoResultado : grantResults) {
-            if(permissaoResultado == PackageManager.PERMISSION_DENIED) {
+            if (permissaoResultado == PackageManager.PERMISSION_DENIED) {
                 altertaValidacaoPermissao();
             }
         }

@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.elyneker.chatandroid.config.ConfiguracaoFirebase;
+import com.elyneker.chatandroid.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +75,21 @@ public class UsuarioFirebase {
         }
         return false;
 
+    }
+
+    public static Usuario getDadosUsuarioLogado() {
+        FirebaseUser firebaseUser = getUsuarioAtual();
+        Usuario dadosUsuario = new Usuario();
+        dadosUsuario.setEmail(firebaseUser.getEmail());
+        dadosUsuario.setNome(firebaseUser.getDisplayName());
+
+        if(firebaseUser.getPhotoUrl() == null) {
+            dadosUsuario.setFoto("");
+        } else {
+            dadosUsuario.setFoto(firebaseUser.getPhotoUrl().toString());
+        }
+
+        return dadosUsuario;
     }
 
 
