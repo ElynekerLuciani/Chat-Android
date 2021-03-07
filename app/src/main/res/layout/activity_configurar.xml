@@ -35,7 +35,7 @@
         tools:layout_editor_absoluteX="11dp">
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/editNomePerfilUsuario"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,5 +43,21 @@
             android:inputType="textPersonName"
             android:text="Nome do Usuário" />
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imageButtonCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonGaleria"
+        app:layout_constraintStart_toEndOf="@+id/circleImageViewFotoPerfil"
+        app:srcCompat="@drawable/ic_baseline_camera_alt_24" />
+
+    <ImageButton
+        android:id="@+id/imageButtonGaleria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageViewFotoPerfil"
+        app:layout_constraintStart_toEndOf="@+id/circleImageViewFotoPerfil"
+        app:srcCompat="@drawable/ic_baseline_photo_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

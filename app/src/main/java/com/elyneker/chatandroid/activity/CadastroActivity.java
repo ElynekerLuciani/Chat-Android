@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.elyneker.chatandroid.R;
 import com.elyneker.chatandroid.config.ConfiguracaoFirebase;
 import com.elyneker.chatandroid.helper.Base64Custom;
+import com.elyneker.chatandroid.helper.UsuarioFirebase;
 import com.elyneker.chatandroid.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -74,6 +79,8 @@ public class CadastroActivity extends AppCompatActivity {
                         String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmail());
                         usuario.setIdUser(identificadorUsuario);
                         usuario.salvar();
+
+                        UsuarioFirebase.atualizarNomeUsuario(usuario.getNome());
                     }catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -100,7 +107,10 @@ public class CadastroActivity extends AppCompatActivity {
                 }
 
             }
+
         });
 
     }
+
+
 }
