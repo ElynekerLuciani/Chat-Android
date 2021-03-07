@@ -17,5 +17,11 @@
     <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
 
     </style>
+    <style name="Theme.ChatAndroid.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.ChatAndroid.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ChatAndroid.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
