@@ -20,7 +20,7 @@
             app:popupTheme="@style/Theme.ChatAndroid.PopupOverlay" >
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageViewFotoPerfil"
+                android:id="@+id/circleImageViewFotoChat"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/padrao"

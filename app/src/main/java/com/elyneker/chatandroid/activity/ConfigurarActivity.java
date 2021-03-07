@@ -75,7 +75,7 @@ public class ConfigurarActivity extends AppCompatActivity {
         nomePerfilUsuario = findViewById(R.id.editNomePerfilUsuario);
         imageButtonCamera = findViewById(R.id.imageButtonCamera);
         imageButtonGaleria = findViewById(R.id.imageButtonGaleria);
-        circleImageViewPerfil = findViewById(R.id.circleImageViewFotoPerfil);
+        circleImageViewPerfil = findViewById(R.id.circleImageViewFotoChat);
         imageButtonCamera.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("QueryPermissionsNeeded")
             @Override

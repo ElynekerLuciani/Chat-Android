@@ -5,9 +5,10 @@ import com.elyneker.chatandroid.helper.UsuarioFirebase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Usuario {
+public class Usuario implements Serializable {
 
     private String idUser;
     private String nome;
