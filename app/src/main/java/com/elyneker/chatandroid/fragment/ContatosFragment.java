@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 
 import com.elyneker.chatandroid.R;
 import com.elyneker.chatandroid.activity.ChatActivity;
+import com.elyneker.chatandroid.activity.GrupoActivity;
 import com.elyneker.chatandroid.adapter.ContatosAdapter;
 import com.elyneker.chatandroid.config.ConfiguracaoFirebase;
 import com.elyneker.chatandroid.helper.RecyclerItemClickListener;
@@ -77,9 +78,19 @@ public class ContatosFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Usuario usuarioSelecionado = listaContatos.get(position);
-                                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                                intent.putExtra("chatContato", usuarioSelecionado);
-                                startActivity(intent);
+
+                                boolean cabecalho = usuarioSelecionado.getEmail().isEmpty();
+
+                                if(cabecalho) {
+                                    Intent intent = new Intent(getActivity(), GrupoActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                                    intent.putExtra("chatContato", usuarioSelecionado);
+                                    startActivity(intent);
+
+                                }
+
 
                             }
 
@@ -96,13 +107,21 @@ public class ContatosFragment extends Fragment {
                 )
         );
 
+        /*
+        * utilizo um email vazio para diferenciar entre um usuário e a opção de criar um novo grupo
+        * */
+        Usuario itemGrupo = new Usuario();
+        itemGrupo.setNome("Novo Grupo");
+        itemGrupo.setEmail("");
+
+        listaContatos.add(itemGrupo);
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         recuperarContatos();
     }
 
