@@ -37,11 +37,11 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = null;
 
-        if(viewType == TIPO_REMETENTE) {
+        if (viewType == TIPO_REMETENTE) {
 
             item = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_mensagem_remetente, parent, false);
 
-        } else if(viewType == TIPO_DESTINATARIO) {
+        } else if (viewType == TIPO_DESTINATARIO) {
 
             item = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_mensagem_destinatario, parent, false);
 
@@ -57,14 +57,31 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         String msg = mensagem.getMensagem();
         String img = mensagem.getImagem();
 
-        if(img != null) {
+        if (img != null) {
             Uri url = Uri.parse(img);
             Glide.with(context).load(url).into(holder.imagem);
+
+            String nome = mensagem.getNome();
+
+            if (!nome.isEmpty()) {
+                holder.nome.setText(nome);
+            } else {
+                holder.nome.setVisibility(View.GONE);
+            }
 
             //Esconder o texto
             holder.mensagem.setVisibility(View.GONE);
         } else {
             holder.mensagem.setText(msg);
+
+            String nome = mensagem.getNome();
+
+            if (!nome.isEmpty()) {
+                holder.nome.setText(nome);
+            } else {
+                holder.nome.setVisibility(View.GONE);
+            }
+
             //Esconder a imagem
             holder.imagem.setVisibility(View.GONE);
         }
@@ -81,7 +98,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         Mensagem mensagem = mensagens.get(position);
         String idUsuario = UsuarioFirebase.getIdentificadorUsuario();
 
-        if(idUsuario.equals(mensagem.getIdUsuario())) {
+        if (idUsuario.equals(mensagem.getIdUsuario())) {
             return TIPO_REMETENTE;
         }
 
@@ -92,11 +109,13 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
 
         TextView mensagem;
         ImageView imagem;
+        TextView nome;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             mensagem = itemView.findViewById(R.id.textViewMensagem);
             imagem = itemView.findViewById(R.id.imageMensagemFoto);
+            nome = itemView.findViewById(R.id.textViewNomeExibicao);
         }
     }
 }

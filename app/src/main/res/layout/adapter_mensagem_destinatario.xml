@@ -13,6 +13,12 @@
         android:orientation="vertical"
         android:layout_alignParentLeft="true">
 
+        <TextView
+            android:id="@+id/textViewNomeExibicao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
         <ImageView
             android:id="@+id/imageMensagemFoto"
             android:layout_width="wrap_content"

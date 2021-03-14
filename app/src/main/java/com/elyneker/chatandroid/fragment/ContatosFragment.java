@@ -107,14 +107,7 @@ public class ContatosFragment extends Fragment {
                 )
         );
 
-        /*
-        * utilizo um email vazio para diferenciar entre um usuário e a opção de criar um novo grupo
-        * */
-        Usuario itemGrupo = new Usuario();
-        itemGrupo.setNome("Novo Grupo");
-        itemGrupo.setEmail("");
-
-        listaContatos.add(itemGrupo);
+        adicionarMenuNovoGrupo();
 
         return view;
     }
@@ -137,6 +130,8 @@ public class ContatosFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+               limparListaContatos();
+
                 for (DataSnapshot dados : snapshot.getChildren()) {
                     Usuario usuario = dados.getValue(Usuario.class);
 
@@ -156,5 +151,22 @@ public class ContatosFragment extends Fragment {
 
             }
         });
+    }
+
+    public void limparListaContatos() {
+        listaContatos.clear();
+        adicionarMenuNovoGrupo();
+    }
+
+    public void adicionarMenuNovoGrupo() {
+        /*
+         * utilizo um email vazio para diferenciar entre um usuário e a opção de criar um novo grupo
+         * */
+        Usuario itemGrupo = new Usuario();
+        itemGrupo.setNome("Novo Grupo");
+        itemGrupo.setEmail("");
+
+        listaContatos.add(itemGrupo);
+
     }
 }

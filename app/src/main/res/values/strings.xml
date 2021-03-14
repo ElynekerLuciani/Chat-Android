@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Chat Android</string>
     <string name="email">E-mail</string>
-    <string name="senha">Senha</string>
+    <string name="senha">Senha de 6 dígitos</string>
     <string name="entrar">Entrar</string>
     <string name="cadastro">Cadastre-se para entrar</string>
     <string name="nome">Digite seu nome</string>
